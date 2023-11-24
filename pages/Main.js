@@ -1,9 +1,9 @@
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View, Button } from 'react-native';
 import { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 
-export default function Main() {
+export default function Main({ navigation }) {
     // Dummy data
     const [data, setData] = useState([
         { id: 0, activity: "activity1", when: "" },
@@ -15,7 +15,6 @@ export default function Main() {
         // display modal
         // id = 0 --> add activity
         // id > 0 --> edit or delete activity (or use swipe)
-        // Alert.alert(item.id.toString());
         Alert.alert(item.id.toString());
     };
 
@@ -32,8 +31,8 @@ export default function Main() {
 
     return (
         <View style={styles.container}>
-            <FlatList data={data} renderItem={render} style={styles.flatList} contentContainerStyle={styles.flatListContent}/>
             <StatusBar style="auto" />
+            <FlatList data={data} renderItem={render} style={styles.flatList} contentContainerStyle={styles.flatListContent}/>
         </View> 
     );
 }
