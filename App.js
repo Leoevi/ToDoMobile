@@ -9,9 +9,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
 
+// TODO: separate auth to another file
+// (for the time being, we will ignore all warnings that contains "Require cycle")
+import { LogBox } from 'react-native';
+const ignoreRegex = /Require cycle/
+LogBox.ignoreLogs([ignoreRegex]);
 export const AuthContext = React.createContext();
 
 export default function App() {
+  // Auth set up
   // https://react.dev/learn/passing-data-deeply-with-context
   // https://www.robcallaghan.co.uk/blog/understanding-the-react-context-api-usecontext-hook/
   // https://reactnavigation.org/docs/auth-flow#implement-the-logic-for-restoring-the-token
@@ -45,7 +51,6 @@ export default function App() {
       userToken: null,
     }
   );
-
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
@@ -67,7 +72,6 @@ export default function App() {
 
     bootstrapAsync();
   }, []);
-  
   const authCtx = React.useMemo(() => ({
       signIn: async (data) => {
         // We would sent credentials to server here
@@ -78,6 +82,7 @@ export default function App() {
       },
     }), []);
 
+  // Actual app (the auth that we just did is so that we can wrap our whole app with the context provider)
   const Stack = createStackNavigator();
   const Drawer = createDrawerNavigator();
 
