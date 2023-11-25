@@ -4,10 +4,17 @@ import axios from 'axios';
 import { TextInput } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { AuthContext } from '../App';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function SignIn() {
     const [id, setID] = useState("");
     const [password, setPassword] = useState("");
+    // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-react-native/
+    // https://stackoverflow.com/questions/40935381/how-can-i-put-an-icon-inside-a-textinput-in-react-native
+    const [hidePwd, setHidePwd] = useState(true);
+    const togglePwdVisibility = () => {
+        setHidePwd(!hidePwd);
+    }
 
     // const signIn = () => {
     //     axios.post("https://cache111.com/todoapi/tokens",
@@ -25,12 +32,20 @@ export default function SignIn() {
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="เลขประจำตัวปชช. " keyboardType="numeric" onChangeText={setID}/>
-            <TextInput type="password" secureTextEntry={true} style={styles.input} placeholder="รหัสผ่าน" onChangeText={setPassword}/>
-            <TouchableOpacity style={styles.button} onPress={() => signIn({id, password})}>
+            <TextInput style={styles.input} placeholder="User ID" keyboardType="numeric" onChangeText={setID} />
+            <View style={styles.passwordContainer}>
+                <TextInput type="password" secureTextEntry={hidePwd} style={styles.passwordInput} placeholder="Password" onChangeText={setPassword} />
+                <MaterialCommunityIcons
+                    name={hidePwd ? 'eye' : 'eye-off'}
+                    size={24}
+                    color="#aaa"
+                    onPress={togglePwdVisibility}
+                />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => signIn({ id, password })}>
                 <Text>Sign In</Text>
             </TouchableOpacity>
-            <StatusBar style="auto"/>
+            <StatusBar style="auto" />
         </View>
     );
 }
@@ -42,7 +57,6 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'center',
     },
-
     input: {
         borderWidth: 1,
         padding: 10,
@@ -51,7 +65,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
     },
-
     button: {
         alignItems: "center",
         backgroundColor: "#DDDDDD",
@@ -61,4 +74,19 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
     },
+    passwordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    passwordInput: {
+        flex: 1,
+        borderWidth: 1,
+        padding: 10,
+        marginRight: 10,
+    }
 });

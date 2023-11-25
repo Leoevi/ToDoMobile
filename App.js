@@ -12,7 +12,7 @@ import React from 'react';
 // TODO: separate auth to another file
 // (for the time being, we will ignore all warnings that contains "Require cycle")
 import { LogBox } from 'react-native';
-const ignoreRegex = /Require cycle/
+const ignoreRegex = /Require cycle/;
 LogBox.ignoreLogs([ignoreRegex]);
 export const AuthContext = React.createContext();
 
